@@ -1,5 +1,4 @@
-<<<<<<< HEAD
-# stock_management
+# Mr_Stokka
 
 A new Flutter application.
 
@@ -16,5 +15,3 @@ For help getting started with Flutter, view our
 [online documentation](https://flutter.dev/docs), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
 =======
-# mr_stokka
->>>>>>> 9ef96ba85e482855731f45e21b8ac30d3e86334f
