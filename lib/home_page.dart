@@ -1,4 +1,6 @@
+import 'package:dart_airtable/dart_airtable.dart';
 import 'package:flutter/material.dart';
+import 'package:mr_stokka/data_hub.dart';
 import 'package:mr_stokka/reusable_card.dart';
 
 class HomePage extends StatefulWidget {
@@ -7,8 +9,31 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final List<String> entries = <String>['A', 'B', 'C','A', 'B', 'C','A', 'B', 'C'];
-  final List<int> colorCodes = <int>[600, 500, 100,600, 500, 100, 500, 100,600];
+  List<String> _brand = [];
+  List<String> _item  = [];
+  List<String> _price = [];
+  int _counter=0;
+  List<AirtableRecord> _records;
+
+
+  @override
+  void initState() {
+    super.initState();
+    getRecords();
+  }
+  void getRecords() async {
+    DataHub dataHub = DataHub();
+    await dataHub.getRecords().then((value) {
+      dataHub.setData(value);
+      setState(() {
+        _brand = dataHub.getBrandList();
+        _item = dataHub.getItemList();
+        _price = dataHub.getPriceList();
+      });
+
+    });
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,13 +47,21 @@ class _HomePageState extends State<HomePage> {
           Expanded(
             flex: 5,
             child: ListView.builder(
-              itemCount: entries.length,
+              itemCount: _brand.length,
               itemBuilder: (BuildContext context, int index) {
                 return Container(
                   height: 120,
                   color: Colors.yellow,
                   child: ReusableCard(
-                    colour: Colors.red, cardChild: Text('Entry ${entries[index]}'),),
+                    colour: Colors.red,
+                    cardChild: Column(
+                      children: <Widget>[
+                        Text('${_brand[index]}'),
+                        Text('${_item[index]}'),
+                        Text('${_price[index]}'),
+                      ],
+                    ),
+                  ),
                 );
               }
             ),
