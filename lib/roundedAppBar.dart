@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'constants.dart';
+
 class RoundedAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
@@ -19,10 +21,10 @@ class RoundedAppBar extends StatelessWidget implements PreferredSizeWidget {
                     bottom: width / 2 - preferredSize.height / 2),
                 child: new DecoratedBox(
                   decoration: new BoxDecoration(
-                    color: Colors.orange,
+                    color: kAppBarColor,
                     shape: BoxShape.circle,
                     boxShadow: [
-                      new BoxShadow(color: Colors.black54, blurRadius: 10.0)
+                      new BoxShadow(color: Colors.black54, blurRadius: 5.0)
                     ],
                   ),
                 ),
@@ -35,5 +37,5 @@ class RoundedAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize =>  Size.fromHeight(200.0);
+  Size get preferredSize =>  Size.fromHeight(150.0);
 }

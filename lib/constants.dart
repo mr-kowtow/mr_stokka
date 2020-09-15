@@ -16,3 +16,13 @@ const kGreyedTextStyle = TextStyle(
 
 const kPrimaryColour = Color(0xFF2E62EB);
 const kBackgroundColour = Color(0xFFF7F7F7);
+
+const kAppBarColor = Colors.orange;
+
+//TODO: this shouldnt be here, not a const
+var kBoxShadow = [BoxShadow(
+  color: Colors.grey.withOpacity(0.5),
+  spreadRadius: 5,
+  offset: Offset(0, 3),
+  blurRadius: 7, // changes position of shadow
+)];
