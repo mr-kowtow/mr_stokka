@@ -48,7 +48,7 @@ class _HomePageState extends State<HomePage> {
                   child: Text("asd"),
                 ),
                 Expanded(
-                    flex: 2,
+                    flex: 3,
                     child: Column(
                       children: <Widget>[
                         Container(
@@ -96,7 +96,7 @@ class _HomePageState extends State<HomePage> {
                                   children: <Widget>[
                                     Text("99", style: kTitleTextStyle,),
                                     SizedBox(height: 5.0,),
-                                    Text("On-order", style: kGreyedTextStyle,),
+                                    Text("In-transit", style: kGreyedTextStyle,),
                                   ],
                                 ),
                                 ),

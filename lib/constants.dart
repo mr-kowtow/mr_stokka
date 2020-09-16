@@ -21,7 +21,7 @@ const kAppBarColor = Colors.orange;
 
 //TODO: this shouldnt be here, not a const
 var kBoxShadow = [BoxShadow(
-  color: Colors.grey.withOpacity(0.5),
+  color: Colors.grey.withOpacity(0.4),
   spreadRadius: 5,
   offset: Offset(0, 3),
   blurRadius: 7, // changes position of shadow
