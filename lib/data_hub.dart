@@ -10,12 +10,14 @@ class DataHub {
   List<String> _brand = List<String>();
   List<String> _item = List<String>();
   List<String> _price = List<String>();
+  List<String> _image = List<String>();
 
   void setData(List<AirtableRecord> records){
     for(var i=0;i<records.length;i++){
       _brand.add(records[i].toJSON()['fields']['Brand']);
       _item.add(records[i].toJSON()['fields']['Items\nBought']);
       _price.add(records[i].toJSON()['fields']['Per Price\nAUD']);
+      _image.add(records[i].toJSON()['fields']['Image']);
     }
   }
 
@@ -29,6 +31,9 @@ class DataHub {
 
   List<String> getPriceList(){
     return _price;
+  }
+  List<String> getImageList(){
+    return _image;
   }
 
   Future<List<AirtableRecord>> getRecords() async {

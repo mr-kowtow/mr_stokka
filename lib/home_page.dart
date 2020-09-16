@@ -16,6 +16,7 @@ class _HomePageState extends State<HomePage> {
   List<String> _brand = [];
   List<String> _item = [];
   List<String> _price = [];
+  List<String> _image = [];
 
   @override
   void initState() {
@@ -31,6 +32,7 @@ class _HomePageState extends State<HomePage> {
         _brand = dataHub.getBrandList();
         _item = dataHub.getItemList();
         _price = dataHub.getPriceList();
+        _image = dataHub.getImageList();
       });
     });
   }
@@ -120,7 +122,7 @@ class _HomePageState extends State<HomePage> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => ItemPage()
+                                      builder: (context) => ItemPage(brand: _brand[index],item: _item[index], price: _price[index],image: _image[index])
                                   )
                               );
                             },
