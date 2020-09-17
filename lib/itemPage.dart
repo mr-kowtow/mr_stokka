@@ -18,6 +18,7 @@ class ItemPage extends StatelessWidget {
           scaffoldBackgroundColor: kBackgroundColour
       ),
       home: Scaffold(
+        resizeToAvoidBottomInset: false,
         body: Stack(
           children: <Widget>[
             RoundedAppBar(),

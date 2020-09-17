@@ -4,7 +4,7 @@ import 'package:mr_stokka/data_hub.dart';
 import 'package:mr_stokka/reusable_card.dart';
 import 'package:mr_stokka/itemPage.dart';
 import 'package:mr_stokka/roundedAppBar.dart';
-
+import 'package:mr_stokka/searchBar.dart';
 import 'constants.dart';
 
 class HomePage extends StatefulWidget {
@@ -13,10 +13,14 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<String> _brand = [];
-  List<String> _item = [];
-  List<String> _price = [];
-  List<String> _image = [];
+  List<String> brand = [];
+  List<String> item = [];
+  List<String> price = [];
+  List<String> image = [];
+  List<String> tmp_brand=[];
+  List<String> tmp_item=[];
+  List<String> tmp_price=[];
+  List<String> tmp_image=[];
 
   @override
   void initState() {
@@ -29,10 +33,15 @@ class _HomePageState extends State<HomePage> {
     await dataHub.getRecords().then((value) {
       dataHub.setData(value);
       setState(() {
-        _brand = dataHub.getBrandList();
-        _item = dataHub.getItemList();
-        _price = dataHub.getPriceList();
-        _image = dataHub.getImageList();
+        brand = dataHub.getBrandList();
+        item = dataHub.getItemList();
+        price = dataHub.getPriceList();
+        image = dataHub.getImageList();
+        tmp_brand = brand;
+        tmp_item = item;
+        tmp_price = price;
+        tmp_image = image;
+        print(tmp_brand);
       });
     });
   }
@@ -40,6 +49,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomPadding: false,
         body: Stack(
           children: <Widget>[
             RoundedAppBar(),
@@ -65,7 +75,7 @@ class _HomePageState extends State<HomePage> {
                                 Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: <Widget>[
-                                    Text("${_brand.length}",
+                                    Text("${tmp_brand.length}",
                                       style: kTitleTextStyle,),
                                     SizedBox(height: 5.0,),
                                     Text("In Stock", style: kGreyedTextStyle,),
@@ -106,13 +116,43 @@ class _HomePageState extends State<HomePage> {
                             ),
                           ),
                         ),
+                        SearchBar(
+                          brands: brand,
+                          //todo: create product class to remove this garbage code
+                          onChange: (String val){
+                            List<String>onChangeBrand = [];
+                            List<String>onChangeItem = [];
+                            List<String>onChangePrice = [];
+                            List<String>onChangeImage = [];
+                            for(var i=0;i<brand.length;i++){
+                              if(val == "All"){
+                                onChangeBrand = brand;
+                                onChangeItem = item;
+                                onChangePrice = price;
+                                onChangeImage = image;
+                              }
+                              else if(brand[i] == val){
+                                onChangeBrand.add(brand[i]);
+                                onChangeItem.add(item[i]);
+                                onChangePrice.add(price[i]);
+                                onChangeImage.add(image[i]);
+                              }
+                            }
+                            setState(() {
+                              tmp_brand = onChangeBrand;
+                              tmp_item = onChangeItem;
+                              tmp_price = onChangePrice;
+                              tmp_image = onChangeImage;
+                            });
+                          },
+                        ),
                       ],
                     )
                 ),
                 Expanded(
                   flex: 5,
                   child: ListView.builder(
-                      itemCount: _brand.length,
+                      itemCount: tmp_brand.length,
                       itemBuilder: (BuildContext context, int index) {
                         return Container(
                           height: 100,
@@ -122,7 +162,7 @@ class _HomePageState extends State<HomePage> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => ItemPage(brand: _brand[index],item: _item[index], price: _price[index],image: _image[index])
+                                      builder: (context) => ItemPage(brand: tmp_brand[index],item: tmp_item[index], price: tmp_price[index],image: tmp_image[index])
                                   )
                               );
                             },
@@ -137,15 +177,14 @@ class _HomePageState extends State<HomePage> {
                                 Flexible(
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment
-                                        .start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: <Widget>[
-                                      Text('${_brand[index]}',
+                                      Text('${tmp_brand[index]}',
                                         style: kRegularTextStyle,),
-                                      Text('${_item[index]}',
+                                      Text('${tmp_item[index]}',
                                         overflow: TextOverflow.ellipsis,
                                         style: kTitleTextStyle,),
-                                      Text('\$${_price[index]}',
+                                      Text('\$${tmp_price[index]}',
                                         style: kRegularTextStyle,),
                                     ],
                                   ),
@@ -158,7 +197,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
               ],
-            )
+            ),
           ],
         ));
   }
