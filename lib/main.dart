@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'utilities/constants.dart';
 import 'screens/home_page.dart';
 
-void main() => runApp(StockManagement());
+void main() async {
+  await DotEnv().load('.env');
+  runApp(StockManagement());
+}
 
 class StockManagement extends StatelessWidget {
   @override

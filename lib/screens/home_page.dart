@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:mr_stokka/services/product.dart';
 import '../services/data_hub.dart';
 import '../components/reusable_card.dart';
@@ -125,7 +126,7 @@ class _HomePageState extends State<HomePage> {
                                 tmp_products = inputChangeProducts;
                               });
                             },
-                          //todo: create product class to remove this garbage code
+
                           onChange: (String val){
                             List<Product>onChangeProducts = [];
                             for(var i=0;i<products.length;i++){

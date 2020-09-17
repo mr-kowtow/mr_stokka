@@ -1,11 +1,8 @@
 import 'package:dart_airtable/dart_airtable.dart';
 import 'package:mr_stokka/services/product.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class DataHub {
-
-  final _apiKey ="keyRZ9wpswVaGK244";
-  final _projectBase = "appspC8LXpu6kv5tG";
-  final _recordName = 'Inventory';
 
   List<Product> _products = List<Product>();
   List<String> _uniqueBrands = List<String>();
@@ -32,8 +29,8 @@ class DataHub {
   }
 
   Future<List<AirtableRecord>> getRecords() async {
-    var airtable = Airtable(apiKey: _apiKey, projectBase: _projectBase);
-    var results = await airtable.getAllRecords(_recordName);
+    var airtable = Airtable(apiKey: DotEnv().env['APIKEY'], projectBase: DotEnv().env['PROJECTBASE']);
+    var results = await airtable.getAllRecords(DotEnv().env['RECORDNAME']);
     return results;
   }
 

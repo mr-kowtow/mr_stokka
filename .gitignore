@@ -9,7 +9,7 @@
 .buildlog/
 .history
 .svn/
-lib/utilities/.env
+.env
 # IntelliJ related
 *.iml
 *.ipr
