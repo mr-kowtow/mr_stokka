@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:mr_stokka/roundedAppBar.dart';
-import 'constants.dart';
+import 'package:mr_stokka/services/product.dart';
+import '../components/rounded_app_bar.dart';
+import '../utilities/constants.dart';
 
 class ItemPage extends StatelessWidget {
-  String brand;
-  String item;
-  String price;
-  String image;
 
-  ItemPage({this.brand, this.item, this.price, this.image});
+  Product product;
+  ItemPage({this.product});
 
   @override
   Widget build(BuildContext context) {
@@ -43,16 +41,16 @@ class ItemPage extends StatelessWidget {
                 ),
                 Expanded(
                   flex: 1,
-                  child: Image(image: NetworkImage(image??"https://static.thenounproject.com/png/340719-200.png")),
+                  child: Image(image: NetworkImage(product.getImage()??"https://static.thenounproject.com/png/340719-200.png")),
                 ),
                 Expanded(
                   flex: 3,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text("$brand", style: kTitleTextStyle,),
-                      Text("$item", style: kRegularTextStyle,),
-                      Text("$price", style: kRegularTextStyle,),
+                      Text("${product.getBrand()}", style: kTitleTextStyle,),
+                      Text("${product.getItem()}", style: kRegularTextStyle,),
+                      Text("${product.getPrice()}", style: kRegularTextStyle,),
                     ],
                   )
                 )

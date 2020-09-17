@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mr_stokka/reusable_card.dart';
-import 'home_page.dart';
-import 'constants.dart';
+import '../components/reusable_card.dart';
+import '../utilities/constants.dart';
 
 class SearchBar extends StatefulWidget {
   List<String> brands;
@@ -15,13 +14,13 @@ class SearchBar extends StatefulWidget {
 }
 
 class _SearchBarState extends State<SearchBar> {
-  String selectedBrand;
+  String selectedBrand = "All";
 
 
   List<DropdownMenuItem<String>> buildDropdownMenuItems(List brands){
     List<DropdownMenuItem<String>> items = List();
     items.add(DropdownMenuItem(value: "All", child: Text("All"),));
-    for (String brand in brands.toSet().toList()){
+    for (String brand in brands){
       items.add(DropdownMenuItem(value: brand, child: Text(brand),));
     }
     return items;
@@ -43,7 +42,7 @@ class _SearchBarState extends State<SearchBar> {
               child: Container(
                 margin: EdgeInsets.only(left: 20),
                 child: TextFormField(
-                  onFieldSubmitted: (txt){
+                  onChanged: (txt){
                     setState(() {
                        widget.inputChange(txt.toLowerCase());
                     });

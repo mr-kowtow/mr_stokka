@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'constants.dart';
-import 'home_page.dart';
+import 'utilities/constants.dart';
+import 'screens/home_page.dart';
+
 void main() => runApp(StockManagement());
 
 class StockManagement extends StatelessWidget {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'constants.dart';
+import '../utilities/constants.dart';
 
 class RoundedAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override

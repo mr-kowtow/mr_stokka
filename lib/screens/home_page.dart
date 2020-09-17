@@ -1,11 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mr_stokka/data_hub.dart';
-import 'package:mr_stokka/reusable_card.dart';
-import 'package:mr_stokka/itemPage.dart';
-import 'package:mr_stokka/roundedAppBar.dart';
-import 'package:mr_stokka/searchBar.dart';
-import 'constants.dart';
+import 'package:mr_stokka/services/product.dart';
+import '../services/data_hub.dart';
+import '../components/reusable_card.dart';
+import '../screens/item_page.dart';
+import '../components/rounded_app_bar.dart';
+import '../components/search_bar.dart';
+import '../utilities/constants.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -13,14 +14,10 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<String> brand = [];
-  List<String> item = [];
-  List<String> price = [];
-  List<String> image = [];
-  List<String> tmp_brand=[];
-  List<String> tmp_item=[];
-  List<String> tmp_price=[];
-  List<String> tmp_image=[];
+  List<Product> products = [];
+  List<String> uniqueBrands = [];
+  List<Product> tmp_products = [];
+  List<String> tmp_uniqueBrands = [];
 
   @override
   void initState() {
@@ -33,15 +30,10 @@ class _HomePageState extends State<HomePage> {
     await dataHub.getRecords().then((value) {
       dataHub.setData(value);
       setState(() {
-        brand = dataHub.getBrandList();
-        item = dataHub.getItemList();
-        price = dataHub.getPriceList();
-        image = dataHub.getImageList();
-        tmp_brand = brand;
-        tmp_item = item;
-        tmp_price = price;
-        tmp_image = image;
-        print(tmp_brand);
+        products = dataHub.getProductList();
+        uniqueBrands = dataHub.getUniqueBrandList();
+        tmp_products = products;
+        tmp_uniqueBrands = uniqueBrands;
       });
     });
   }
@@ -72,15 +64,15 @@ class _HomePageState extends State<HomePage> {
                             cardChild: Row(
                               children: <Widget>[
                                 Expanded(child:
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    Text("${tmp_brand.length}",
-                                      style: kTitleTextStyle,),
-                                    SizedBox(height: 5.0,),
-                                    Text("In Stock", style: kGreyedTextStyle,),
-                                  ],
-                                ),
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      Text("${tmp_products.length}",
+                                        style: kTitleTextStyle,),
+                                      SizedBox(height: 5.0,),
+                                      Text("In Stock", style: kGreyedTextStyle,),
+                                    ],
+                                  ),
                                 ),
                                 Expanded(child:
                                 Column(
@@ -103,74 +95,49 @@ class _HomePageState extends State<HomePage> {
                                 ),
                                 ),
                                 Expanded(child:
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    Text("99", style: kTitleTextStyle,),
-                                    SizedBox(height: 5.0,),
-                                    Text("In-transit", style: kGreyedTextStyle,),
-                                  ],
-                                ),
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      Text("99", style: kTitleTextStyle,),
+                                      SizedBox(height: 5.0,),
+                                      Text("In-transit", style: kGreyedTextStyle,),
+                                    ],
+                                  ),
                                 ),
                               ],
                             ),
                           ),
                         ),
                         SearchBar(
-                          brands: brand,
+                          brands: uniqueBrands,
                             inputChange: (String val){
-                              List<String>inputChangeBrand = [];
-                              List<String>inputChangeItem = [];
-                              List<String>inputChangePrice = [];
-                              List<String>inputChangeImage = [];
+                              List<Product>inputChangeProducts = [];
                               if(val == ""){
-                                inputChangeBrand = brand;
-                                inputChangeItem = item;
-                                inputChangePrice = price;
-                                inputChangeImage = image;
+                                inputChangeProducts = products;
                               } else {
-                                for (var i = 0; i < item.length; i++) {
-                                  if (item[i].toLowerCase().contains(val) || brand[i].toLowerCase()
-                                      .contains(val)) {
-                                    inputChangeBrand.add(brand[i]);
-                                    inputChangeItem.add(item[i]);
-                                    inputChangePrice.add(price[i]);
-                                    inputChangeImage.add(image[i]);
+                                for (var i = 0; i < products.length; i++) {
+                                  if (products[i].getItem().toLowerCase().contains(val) || products[i].getBrand().toLowerCase().contains(val)) {
+                                    inputChangeProducts.add(products[i]);
                                   }
                                 }
                               }
                               setState(() {
-                                tmp_brand = inputChangeBrand;
-                                tmp_item = inputChangeItem;
-                                tmp_price = inputChangePrice;
-                                tmp_image = inputChangeImage;
+                                tmp_products = inputChangeProducts;
                               });
                             },
                           //todo: create product class to remove this garbage code
                           onChange: (String val){
-                            List<String>onChangeBrand = [];
-                            List<String>onChangeItem = [];
-                            List<String>onChangePrice = [];
-                            List<String>onChangeImage = [];
-                            for(var i=0;i<brand.length;i++){
+                            List<Product>onChangeProducts = [];
+                            for(var i=0;i<products.length;i++){
                               if(val == "All"){
-                                onChangeBrand = brand;
-                                onChangeItem = item;
-                                onChangePrice = price;
-                                onChangeImage = image;
+                                onChangeProducts = products;
                               }
-                              else if(brand[i] == val){
-                                onChangeBrand.add(brand[i]);
-                                onChangeItem.add(item[i]);
-                                onChangePrice.add(price[i]);
-                                onChangeImage.add(image[i]);
+                              else if(products[i].getBrand() == val){
+                                onChangeProducts.add(products[i]);
                               }
                             }
                             setState(() {
-                              tmp_brand = onChangeBrand;
-                              tmp_item = onChangeItem;
-                              tmp_price = onChangePrice;
-                              tmp_image = onChangeImage;
+                              tmp_products = onChangeProducts;
                             });
                           },
                         ),
@@ -180,7 +147,7 @@ class _HomePageState extends State<HomePage> {
                 Expanded(
                   flex: 5,
                   child: ListView.builder(
-                      itemCount: tmp_brand.length,
+                      itemCount: tmp_products.length,
                       itemBuilder: (BuildContext context, int index) {
                         return Container(
                           height: 100,
@@ -190,7 +157,7 @@ class _HomePageState extends State<HomePage> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => ItemPage(brand: tmp_brand[index],item: tmp_item[index], price: tmp_price[index],image: tmp_image[index])
+                                      builder: (context) => ItemPage(product: products[index],)
                                   )
                               );
                             },
@@ -207,12 +174,12 @@ class _HomePageState extends State<HomePage> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: <Widget>[
-                                      Text('${tmp_brand[index]}',
+                                      Text('${tmp_products[index].getBrand()}',
                                         style: kRegularTextStyle,),
-                                      Text('${tmp_item[index]}',
+                                      Text('${tmp_products[index].getItem()}',
                                         overflow: TextOverflow.ellipsis,
                                         style: kTitleTextStyle,),
-                                      Text('\$${tmp_price[index]}',
+                                      Text('\$${tmp_products[index].getPrice()}',
                                         style: kRegularTextStyle,),
                                     ],
                                   ),
