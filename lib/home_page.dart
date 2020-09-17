@@ -118,6 +118,34 @@ class _HomePageState extends State<HomePage> {
                         ),
                         SearchBar(
                           brands: brand,
+                            inputChange: (String val){
+                              List<String>inputChangeBrand = [];
+                              List<String>inputChangeItem = [];
+                              List<String>inputChangePrice = [];
+                              List<String>inputChangeImage = [];
+                              if(val == ""){
+                                inputChangeBrand = brand;
+                                inputChangeItem = item;
+                                inputChangePrice = price;
+                                inputChangeImage = image;
+                              } else {
+                                for (var i = 0; i < item.length; i++) {
+                                  if (item[i].toLowerCase().contains(val) || brand[i].toLowerCase()
+                                      .contains(val)) {
+                                    inputChangeBrand.add(brand[i]);
+                                    inputChangeItem.add(item[i]);
+                                    inputChangePrice.add(price[i]);
+                                    inputChangeImage.add(image[i]);
+                                  }
+                                }
+                              }
+                              setState(() {
+                                tmp_brand = inputChangeBrand;
+                                tmp_item = inputChangeItem;
+                                tmp_price = inputChangePrice;
+                                tmp_image = inputChangeImage;
+                              });
+                            },
                           //todo: create product class to remove this garbage code
                           onChange: (String val){
                             List<String>onChangeBrand = [];

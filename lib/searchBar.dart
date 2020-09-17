@@ -4,15 +4,11 @@ import 'home_page.dart';
 import 'constants.dart';
 
 class SearchBar extends StatefulWidget {
-  String input="";
   List<String> brands;
   final Function(String) onChange;
+  final Function(String) inputChange;
 
-  SearchBar({this.brands, this.onChange,});
-
-  String getInput(){
-    return input;
-  }
+  SearchBar({this.brands, this.onChange, this.inputChange});
 
   @override
   _SearchBarState createState() => _SearchBarState();
@@ -49,8 +45,7 @@ class _SearchBarState extends State<SearchBar> {
                 child: TextFormField(
                   onFieldSubmitted: (txt){
                     setState(() {
-                       widget.input = txt;
-                       print(widget.input);
+                       widget.inputChange(txt.toLowerCase());
                     });
                   },
                   decoration: InputDecoration(
